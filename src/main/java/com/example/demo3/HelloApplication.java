@@ -12,6 +12,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Control;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import javax.swing.*;
@@ -30,14 +31,20 @@ public class HelloApplication extends Application {
         Button Startbtn = new Button("START");
         Button Endbtn = new Button("KONIEC");
         TextField Rollamountfield = new TextField();
+        Text FinalValText = new Text("Finalna wartość to: ");
 
         EventHandler<ActionEvent> event = new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 Startbtn.setText("JESZCZE RAZ");
+                FinalValText.setText("Finalna wartość to: ");
                 ArrayList RollArray = new ArrayList<>();
-                HashMap ScoreArray = new HashMap();
+                ArrayList ScoreArray = new ArrayList<>();
+                ArrayList HelpArray = new ArrayList<>();
                 int Rollamount = Integer.parseInt(Rollamountfield.getText());
+                int FinalValue = 0;
                 RollArray.clear();
+                ScoreArray.clear();
+                HelpArray.clear();
                 RollPanel.getChildren().clear();
                 System.out.println(RollPanel.getChildren());
                 for (int i = 0; i < Rollamount; i++) {
@@ -50,14 +57,24 @@ public class HelloApplication extends Application {
                         Button b = new Button();
                         b.setDisable(true);
                         int row = 0;
-                        if (j > 2) row = 1;
-                        Dice.add(b, j - (3 * row), row);
+                        row = j % 2;
+                        Dice.add(b, j - row, row);
                     }
                     RollArray.add(Dice.getChildren().size());
                 }
                 RollArray.sort(null);
                 for (int i = 0; i < RollArray.size(); i++) {
+                    if (HelpArray.contains(RollArray.get(i))) {
+                        if (!ScoreArray.contains(RollArray.get(i))) {ScoreArray.add(RollArray.get(i)); System.out.println("double :" + RollArray.get(i));}
+                        ScoreArray.add(RollArray.get(i));
+                        System.out.println("double :" + RollArray.get(i));
+                    }
+                    HelpArray.add(RollArray.get(i));
                 }
+                for (var score : ScoreArray){
+                    FinalValue += (int)score;
+                }
+                FinalValText.setText(FinalValText.getText() + FinalValue);
             }
         };
 
@@ -79,13 +96,14 @@ public class HelloApplication extends Application {
         ControlPanel.add(Startbtn, 1, 1);
         ControlPanel.add(Endbtn, 2, 1);
         ControlPanel.add(Rollamountfield, 3, 1);
+        ControlPanel.add(FinalValText, 4, 1);
 
         ControlPanel.setStyle("-fx-border-style: solid inside;");
         ControlPanel.setStyle("-fx-border-color: black;");
         ControlPanel.setPadding(new Insets(10, 15, 15, 0));
 
         Scene scene = new Scene(gridPane, 640, 480);
-        stage.setTitle("Hello!");
+        stage.setTitle("Kostki!");
         stage.setScene(scene);
         stage.show();
     }
