@@ -29,9 +29,10 @@ public class HelloApplication extends Application {
         GridPane ControlPanel = new GridPane();
         GridPane RollPanel = new GridPane();
         Button Startbtn = new Button("START");
-        Button Endbtn = new Button("KONIEC");
+        Button Endbtn = new Button("RESET");
         TextField Rollamountfield = new TextField();
         Text FinalValText = new Text("Finalna wartość to: ");
+        final int[] FinalValue = {0};
         EventHandler<ActionEvent> event = new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 Startbtn.setText("JESZCZE RAZ");
@@ -40,7 +41,6 @@ public class HelloApplication extends Application {
                 ArrayList ScoreArray = new ArrayList<>();
                 ArrayList HelpArray = new ArrayList<>();
                 int Rollamount = Integer.parseInt(Rollamountfield.getText());
-                int FinalValue = 0;
                 RollArray.clear();
                 ScoreArray.clear();
                 HelpArray.clear();
@@ -74,15 +74,17 @@ public class HelloApplication extends Application {
                     HelpArray.add(RollArray.get(i));
                 }
                 for (var score : ScoreArray){
-                    FinalValue += (int)score;
+                    FinalValue[0] += (int)score;
                 }
-                FinalValText.setText(FinalValText.getText() + FinalValue);
+                FinalValText.setText(FinalValText.getText() + FinalValue[0]);
             }
         };
 
         EventHandler<ActionEvent> endevent = new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
-                System.exit(0);
+                FinalValue[0] = 0;
+                FinalValText.setText("Finalna wartość to: " + FinalValue[0]);
+                RollPanel.getChildren().clear();
             }
         };
 
