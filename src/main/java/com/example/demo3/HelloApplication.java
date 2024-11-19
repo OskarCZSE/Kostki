@@ -32,7 +32,6 @@ public class HelloApplication extends Application {
         Button Endbtn = new Button("KONIEC");
         TextField Rollamountfield = new TextField();
         Text FinalValText = new Text("Finalna wartość to: ");
-
         EventHandler<ActionEvent> event = new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 Startbtn.setText("JESZCZE RAZ");
@@ -46,10 +45,10 @@ public class HelloApplication extends Application {
                 ScoreArray.clear();
                 HelpArray.clear();
                 RollPanel.getChildren().clear();
-                System.out.println(RollPanel.getChildren());
                 for (int i = 0; i < Rollamount; i++) {
                     GridPane Dice = new GridPane();
-                    RollPanel.add(Dice,0, i + 1);
+                    int i2 = i / 5;
+                    RollPanel.add(Dice, i2, i + 1 - (i2 * 5));
                     Dice.setStyle("-fx-border-style: solid inside;");
                     Dice.setStyle("-fx-border-color: black;");
                     Dice.setPadding(new Insets(10, 15, 15, 10));
@@ -59,15 +58,18 @@ public class HelloApplication extends Application {
                         int row = 0;
                         row = j % 2;
                         Dice.add(b, j - row, row);
+                        Dice.setMaxWidth(75);
+                        Dice.setMinWidth(75);
+                        Dice.setMinHeight(78);
+                        Dice.setMaxWidth(78);
                     }
                     RollArray.add(Dice.getChildren().size());
                 }
                 RollArray.sort(null);
                 for (int i = 0; i < RollArray.size(); i++) {
                     if (HelpArray.contains(RollArray.get(i))) {
-                        if (!ScoreArray.contains(RollArray.get(i))) {ScoreArray.add(RollArray.get(i)); System.out.println("double :" + RollArray.get(i));}
+                        if (!ScoreArray.contains(RollArray.get(i))) ScoreArray.add(RollArray.get(i));
                         ScoreArray.add(RollArray.get(i));
-                        System.out.println("double :" + RollArray.get(i));
                     }
                     HelpArray.add(RollArray.get(i));
                 }
@@ -78,8 +80,14 @@ public class HelloApplication extends Application {
             }
         };
 
-        Startbtn.setOnAction(event);
+        EventHandler<ActionEvent> endevent = new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent e) {
+                System.exit(0);
+            }
+        };
 
+        Startbtn.setOnAction(event);
+        Endbtn.setOnAction(endevent);
         /*for (int i = 0; i < 10; i++) {
             Button b1 = new Button();
             gridPane.add(b1, i + 4, i);
@@ -101,6 +109,8 @@ public class HelloApplication extends Application {
         ControlPanel.setStyle("-fx-border-style: solid inside;");
         ControlPanel.setStyle("-fx-border-color: black;");
         ControlPanel.setPadding(new Insets(10, 15, 15, 0));
+        ControlPanel.setMinWidth(500);
+        ControlPanel.setMaxWidth(500);
 
         Scene scene = new Scene(gridPane, 640, 480);
         stage.setTitle("Kostki!");
