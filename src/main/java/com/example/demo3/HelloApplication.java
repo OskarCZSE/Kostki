@@ -33,10 +33,12 @@ public class HelloApplication extends Application {
         TextField Rollamountfield = new TextField();
         Text FinalValText = new Text("Finalna wartość to: ");
         final int[] FinalValue = {0};
+        final int[] amountrolled = {0};
         EventHandler<ActionEvent> event = new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 Startbtn.setText("JESZCZE RAZ");
                 FinalValText.setText("Finalna wartość to: ");
+                int iamountrolled = 0;
                 ArrayList RollArray = new ArrayList<>();
                 ArrayList ScoreArray = new ArrayList<>();
                 ArrayList HelpArray = new ArrayList<>();
@@ -44,11 +46,10 @@ public class HelloApplication extends Application {
                 RollArray.clear();
                 ScoreArray.clear();
                 HelpArray.clear();
-                RollPanel.getChildren().clear();
-                for (int i = 0; i < Rollamount; i++) {
+                for (iamountrolled = 0 + amountrolled[0]; iamountrolled < Rollamount + amountrolled[0]; iamountrolled++) {
                     GridPane Dice = new GridPane();
-                    int i2 = i / 5;
-                    RollPanel.add(Dice, i2, i + 1 - (i2 * 5));
+                    int i2 = iamountrolled / 5;
+                    RollPanel.add(Dice, i2, iamountrolled + 1 - (i2 * 5));
                     Dice.setStyle("-fx-border-style: solid inside;");
                     Dice.setStyle("-fx-border-color: black;");
                     Dice.setPadding(new Insets(10, 15, 15, 10));
@@ -77,6 +78,7 @@ public class HelloApplication extends Application {
                     FinalValue[0] += (int)score;
                 }
                 FinalValText.setText(FinalValText.getText() + FinalValue[0]);
+                amountrolled[0] = iamountrolled;
             }
         };
 
@@ -85,6 +87,7 @@ public class HelloApplication extends Application {
                 FinalValue[0] = 0;
                 FinalValText.setText("Finalna wartość to: " + FinalValue[0]);
                 RollPanel.getChildren().clear();
+                amountrolled[0] = 0;
             }
         };
 
